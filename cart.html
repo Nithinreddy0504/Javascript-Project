@@ -1,0 +1,477 @@
+<!-- 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cart Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .cart-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .product {
+      background-color: white;
+      width: 220px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .image-container {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .product-content {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .product-content h3 {
+      font-size: 16px;
+      margin: 10px 0 5px;
+      height: 40px;
+      overflow: hidden;
+    }
+
+    .product-content p {
+      font-size: 15px;
+      font-weight: bold;
+      color: #444;
+      margin: 5px 0;
+    }
+
+    .product-content button {
+      margin-top: 10px;
+      padding: 8px 14px;
+      border: none;
+      background-color: #e74c3c;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .product-content button:hover {
+      background-color: #c0392b;
+    }
+
+    .total-section {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .buy-button {
+      background-color: red;
+      color: white;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .buy-button:hover {
+      background-color: #27ae60;
+    }
+  </style>
+</head>
+<body>
+
+  <h2 id="cart-heading">Your Cart</h2>
+  <div id="cart-root"></div>
+
+  <script>
+    let data = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function renderCart() {
+      const cartRoot = document.getElementById('cart-root');
+      const heading = document.getElementById('cart-heading');
+      cartRoot.innerHTML = ''; // Clear only the cart content
+
+      if (data.length === 0) {
+        heading.textContent = "Your cart is empty.";
+        return;
+      } else {
+        heading.textContent = "Your Cart";
+      }
+
+      const cartContainer = document.createElement('div');
+      cartContainer.className = 'cart-container';
+
+      let totalPrice = 0;
+
+      data.forEach(item => {
+        totalPrice += parseFloat(item.price);
+
+        const productDiv = document.createElement('div');
+        productDiv.className = 'product';
+        productDiv.innerHTML = `
+          <div class="image-container">
+            <img src="${item.image}" alt="${item.name}">
+          </div>
+          <div class="product-content">
+            <h3>${item.name}</h3>
+            <p>$${item.price}</p>
+            <button onclick="removeFromCart(${item.id})">Remove</button>
+          </div>
+        `;
+        cartContainer.appendChild(productDiv);
+      });
+
+      const totalDiv = document.createElement('div');
+      totalDiv.className = 'total-section';
+      totalDiv.innerHTML = `
+        <p>Total Price: $${totalPrice.toFixed(2)}</p>
+        <button class="buy-button" onclick="proceedToBuy()">Proceed to Buy</button>
+      `;
+
+      cartRoot.appendChild(cartContainer);
+      cartRoot.appendChild(totalDiv);
+    }
+
+    function removeFromCart(id) {
+      data = data.filter(item => item.id !== id);
+      localStorage.setItem('cart', JSON.stringify(data));
+      renderCart();
+    }
+
+    function proceedToBuy() {
+      alert('Proceeding to buy! (Payment integration coming soon)');
+      data = [];
+      localStorage.setItem('cart', JSON.stringify(data));
+      renderCart();
+    }
+
+    renderCart();
+  </script>
+
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cart Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .cart-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .product {
+      background-color: white;
+      width: 220px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .image-container {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .product-content {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .product-content h3 {
+      font-size: 16px;
+      margin: 10px 0 5px;
+      height: 40px;
+      overflow: hidden;
+    }
+
+    .product-content p {
+      font-size: 15px;
+      font-weight: bold;
+      color: #444;
+      margin: 5px 0;
+    }
+
+    .product-content button {
+      margin-top: 10px;
+      padding: 8px 14px;
+      border: none;
+      background-color: #e74c3c;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .product-content button:hover {
+      background-color: #c0392b;
+    }
+
+    .total-section {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .buy-button {
+      background-color: red;
+      color: white;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .buy-button:hover {
+      background-color: #27ae60;
+    }
+
+    .discount-badge {
+      color: #27ae60;
+      font-size: 16px;
+      margin-top: 5px;
+    }
+
+    /* Payment modal styles */
+    #payment-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .payment-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 300px;
+      position: relative;
+    }
+
+    .payment-box input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .payment-box button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .payment-box .pay {
+      background-color: green;
+      color: white;
+    }
+
+    .payment-box .cancel {
+      background-color: #ccc;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2 id="cart-heading">Your Cart</h2>
+  <div id="cart-root"></div>
+
+  <!-- Payment Modal -->
+  <div id="payment-modal">
+    <div class="payment-box">
+      <h3 style="text-align:center; margin-bottom:20px;">Payment Details</h3>
+      <input type="text" id="card-name" placeholder="Cardholder Name" />
+      <input type="text" id="card-number" placeholder="Card Number" maxlength="16" />
+      <input type="text" id="expiry" placeholder="MM/YY" maxlength="5" />
+      <input type="text" id="cvv" placeholder="CVV" maxlength="3" />
+      <button class="pay" onclick="confirmPayment()">Pay Now</button>
+      <button class="cancel" onclick="closePaymentModal()">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    let data = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function renderCart() {
+      const cartRoot = document.getElementById('cart-root');
+      const heading = document.getElementById('cart-heading');
+      cartRoot.innerHTML = '';
+
+      if (data.length === 0) {
+        heading.textContent = "Your cart is empty.";
+        return;
+      } else {
+        heading.textContent = "Your Cart";
+      }
+
+      const cartContainer = document.createElement('div');
+      cartContainer.className = 'cart-container';
+
+      let subtotal = 0;
+      let discount = 0;
+      let totalPrice = 0;
+
+      data.forEach(item => {
+        subtotal += parseFloat(item.price);
+      });
+
+      // Apply 20% discount if subtotal is $100 or more
+      if (subtotal >= 100) {
+        discount = subtotal * 0.2;
+        totalPrice = subtotal - discount;
+      } else {
+        totalPrice = subtotal;
+      }
+
+      data.forEach(item => {
+        const productDiv = document.createElement('div');
+        productDiv.className = 'product';
+        productDiv.innerHTML = `
+          <div class="image-container">
+            <img src="${item.image}" alt="${item.name}">
+          </div>
+          <div class="product-content">
+            <h3>${item.name}</h3>
+            <p>$${item.price}</p>
+            <button onclick="removeFromCart(${item.id})">Remove</button>
+          </div>
+        `;
+        cartContainer.appendChild(productDiv);
+      });
+
+      const totalDiv = document.createElement('div');
+      totalDiv.className = 'total-section';
+      
+      if (subtotal >= 100) {
+        totalDiv.innerHTML = `
+          <p>Subtotal: $${subtotal.toFixed(2)}</p>
+          <p class="discount-badge">20% Discount Applied: -$${discount.toFixed(2)}</p>
+          <p>Total Price: $${totalPrice.toFixed(2)}</p>
+          <button class="buy-button" onclick="proceedToBuy()">Proceed to Buy</button>
+        `;
+      } else {
+        totalDiv.innerHTML = `
+          <p>Total Price: $${totalPrice.toFixed(2)}</p>
+          ${subtotal > 0 ? `<p>Spend $${(100 - subtotal).toFixed(2)} more to get 20% off!</p>` : ''}
+          <button class="buy-button" onclick="proceedToBuy()">Proceed to Buy</button>
+        `;
+      }
+
+      cartRoot.appendChild(cartContainer);
+      cartRoot.appendChild(totalDiv);
+    }
+
+    function removeFromCart(id) {
+      data = data.filter(item => item.id !== id);
+      localStorage.setItem('cart', JSON.stringify(data));
+      renderCart();
+    }
+
+    function proceedToBuy() {
+      document.getElementById('payment-modal').style.display = 'flex';
+    }
+
+    function closePaymentModal() {
+      document.getElementById('payment-modal').style.display = 'none';
+    }
+
+    function confirmPayment() {
+      const name = document.getElementById('card-name').value.trim();
+      const number = document.getElementById('card-number').value.trim();
+      const expiry = document.getElementById('expiry').value.trim();
+      const cvv = document.getElementById('cvv').value.trim();
+
+      if (!name || !number || !expiry || !cvv || number.length < 16 || cvv.length < 3) {
+        alert("Please enter valid payment details.");
+        return;
+      }
+
+      alert("Payment successful! Thank you for your purchase.");
+      data = [];
+      localStorage.setItem('cart', JSON.stringify(data));
+      renderCart();
+      closePaymentModal();
+    }
+
+    renderCart();
+  </script>
+
+</body>
+</html>

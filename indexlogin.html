@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-image: url("https://assets.rappler.com/FA3374E0A3974679BEE6144EAFB60ADC/img/0A8F9D7407604926899DD561D81DB0C8/20160622-hm.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        overflow: hidden;
+        position: relative;
+      }
+      .container {
+        width: 400px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        box-shadow: 3px 7px 20px black;
+        text-align: center;
+        color: white;
+        position: relative;
+        z-index: 1;
+      }
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+        outline: none;
+      }
+      button {
+        width: 100%;
+        padding: 10px;
+        background: blue;
+        border: none;
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      button:hover {
+        background: darkblue;
+      }
+      .links {
+        margin-top: 10px;
+      }
+      .links a {
+        color: white;
+        text-decoration: none;
+        margin: 0 10px;
+      }
+      .links a:hover {
+        text-decoration: underline;
+        color: blue;
+      }
+      p {
+        color: black;
+      }
+      .container p {
+        font-size: large;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 style="color: black">Login Page</h1>
+
+      <form id="loginForm">
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit" id="loginButton">Login</button>
+      </form>
+
+      <div class="links">
+        <p>I don't have an account...<a href="./signup.html">Register</a></p>
+        <br /><br />
+        <p>Login as guest...?<a href="./home.html">Guest</a></p>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+      import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBn4UeWwq2aS4Og7-W5C7jK_adetN1xgwU",
+        authDomain: "java-script-project-9078e.firebaseapp.com",
+        projectId: "java-script-project-9078e",
+        storageBucket: "java-script-project-9078e.appspot.com",
+        messagingSenderId: "475663638377",
+        appId: "1:475663638377:web:fce5cf163818b847f127f8"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+
+      const loginForm = document.getElementById("loginForm");
+
+      loginForm.addEventListener("submit", function (event) {
+        event.preventDefault(); // Stop the form from refreshing the page
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            alert("Login successful!");
+            window.location.href = "./home.html";
+          })
+          .catch((error) => {
+            alert("Login failed: " + error.message);
+            console.error("Login error", error.code, error.message);
+          });
+      });
+    </script>
+  </body>
+</html>

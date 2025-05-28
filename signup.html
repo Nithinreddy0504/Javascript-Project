@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>H and M clone SignUp</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-image: url("https://assets.rappler.com/FA3374E0A3974679BEE6144EAFB60ADC/img/0A8F9D7407604926899DD561D81DB0C8/20160622-hm.jpg");
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size:cover;
+      overflow: hidden;
+      position: relative;
+      
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.5);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      display: block;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .alt-option {
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .alt-option a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="signupContainer">
+    <h2>Sign Up</h2>
+    <input type="email" id="signupEmail" placeholder="Email" />
+    <input type="password" id="signupPassword" placeholder="Password" />
+    <button id="btn1">Sign Up</button>
+    <button id="googleSignup">Sign Up with Google</button>
+    <button onclick="window.location.href='home.html'">Continue as Guest</button>
+    <p class="alt-option">Already have an account? <a href="./index.html" id="goToLogin">Login</a></p>
+  </div>
+
+  <div class="container" id="loginContainer" style="display:none;">
+    <h2>Login</h2>
+    <input type="email" id="loginEmail" placeholder="Email" />
+    <input type="password" id="loginPassword" placeholder="Password" />
+    <button id="btn2">Login</button>
+  </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+        GoogleAuthProvider,
+        signInWithPopup
+      } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+
+      
+      const firebaseConfig = {
+        apiKey: "AIzaSyBn4UeWwq2aS4Og7-W5C7jK_adetN1xgwU",
+        authDomain: "java-script-project-9078e.firebaseapp.com",
+        projectId: "java-script-project-9078e",
+        storageBucket: "java-script-project-9078e.appspot.com", 
+        messagingSenderId: "475663638377",
+        appId: "1:475663638377:web:fce5cf163818b847f127f8"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
+
+      // Email sign up
+      document.getElementById("btn1").addEventListener("click", () => {
+        const email = document.getElementById("signupEmail").value;
+        const password = document.getElementById("signupPassword").value;
+        createUserWithEmailAndPassword(auth, email, password)
+          .then(() => {
+            alert("Signup successful! Please log in.");
+            document.getElementById("signupContainer").style.display = "none";
+            document.getElementById("loginContainer").style.display = "block";
+            document.getElementById("loginEmail").value = email;
+          })
+          .catch(error => {
+            alert("Signup failed: " + error.message);
+          });
+      });
+
+      // Email login
+      document.getElementById("btn2").addEventListener("click", () => {
+        const email = document.getElementById("loginEmail").value;
+        const password = document.getElementById("loginPassword").value;
+        signInWithEmailAndPassword(auth, email, password)
+          .then(() => {
+            alert("Login successful!");
+            window.location.href = "home.html";
+          })
+          .catch(error => {
+            alert("Login failed: " + error.message);
+          });
+      });
+
+      // Switch to login
+      document.getElementById("goToLogin").addEventListener("click", () => {
+        document.getElementById("signupContainer").style.display = "none";
+        document.getElementById("loginContainer").style.display = "block";
+      });
+
+      // Google Sign-Up/Login
+      document.getElementById("googleSignup").addEventListener("click", () => {
+        signInWithPopup(auth, provider)
+          .then(result => {
+            const user = result.user;
+            alert(`Welcome ${user.displayName || user.email}`);
+            window.location.href = "home.html";
+          })
+          .catch(error => {
+            alert("Google login failed: " + error.message);
+          });
+      });
+    </script>
+</body>
+</html>

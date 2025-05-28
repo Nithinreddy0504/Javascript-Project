@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <title>H&M Clone Header</title>
+</head>
+<body>
+    
+    <div id="overlay">
+      <!-- <a href="login.html">signup</a> -->
+    </div>
+    <header>
+        <!-- top bar -->
+        <div class="top-bar">
+            <div class="top-left">
+                <a href="./Sustainability.html"> Sustainability</a>
+                <a href="./Customer Service.html">Customer Service</a>
+                <a href="#">Newsletter</a>
+                
+            </div>
+            <!-- <i class=""></i> -->
+            <div class="top-right">
+                <a href="./signup.html"><i class="fa-regular fa-user"></i> Sign in</a>
+                <a href="#"><i class="fas fa-heart"></i> Favourites</a>
+                <a href="cart.html"> <i class="fas fa-shopping-bag"  style="color: #28a745;"></i> Shopping bag (<span id="cart-count">0</span>)</a>
+            </div>
+        </div>
+        
+        <div class="logo-container">
+            <img src="./h and m logo.jpg" alt="H&M Logo" class="logo">
+        </div>
+        <nav class="nav-links">
+            <div class="dropdown">
+                <a href="">Ladies</a>
+                <div class="dropdown-content">
+                    <a href="./womenproducts.html">Tops</a>
+                    <a href="./womenproducts.html">Dresses</a>
+                    <a href="./womenproducts.html">Skirts</a>
+                    <a href="./womenproducts.html">Pants</a>
+                    <a href="./womenproducts.html">Outerwear</a>
+                    <a href="./womenproducts.html">Shoes</a>
+                    <a href="./womenproducts.html">Accessories</a>
+                </div>
+                
+            </div>
+
+            <div class="dropdown">
+                <a href="#">Mens</a>
+                <div class="dropdown-content">
+                    <a href="./menproducts.html">Shirts</a>
+                    <a href="./menproducts.html">Pants</a>
+                    <a href="./menproducts.html">Sport Wear</a>
+                    <a href="./menproducts.html">Shoes</a>
+                    <a href="./menproducts.html">Accessories</a>
+                </div>
+
+            </div>
+            
+            <div class="dropdown">
+                <a href="#">Baby</a>
+                <div class="dropdown-content">
+                    <a href="./kidsproducts.html">Tops</a>
+                    <a href="./kidsproducts.html">Bottoms</a>
+                    <a href="./kidsproducts.html">Outerwear</a>
+                    <a href="./kidsproducts.html">shirts</a>
+                    <a href="./kidsproducts.html">jeans</a>
+                    <a href="./kidsproducts.html">Shoes</a>
+                    <a href="./kidsproducts.html">Accessories</a>
+                </div>
+            </div>
+            
+            <div class="dropdown">
+                <a href="#">Kids</a>
+                <div class="dropdown-content">
+                    <a href="./kidsproducts.html">Tops</a>
+                    <a href="./kidsproducts.html">Bottoms</a>
+                    <a href="./kidsproducts.html">Outerwear</a>
+                    <a href="./kidsproducts.html">shirts</a>
+                    <a href="./kidsproducts.html">jeans</a>
+                    <a href="./kidsproducts.html">Shoes</a>
+                    <a href="./kidsproducts.html">Accessories</a>
+                </div>
+            </div>
+            <a href="#">Home</a>
+        
+        <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" id="search-box" placeholder="Search">
+        <button onclick="performSearch()">🔍</button>
+        <div id="suggestions"></div>
+    </div>
+</nav>
+    </header>
+
+    <!-- info bar -->
+    <div class="info-bar">
+        <span>Free shipping above $1000</span>
+        <span>Free & flexible 15 days return</span>
+        <span>Estimated delivery time: 2-7 days</span>
+    </div>
+
+
+    <!-- red backgroung -->
+    <div class="offer-container">
+
+        <div class="red-bg-text">
+        <p class="exclusive-text">Online exclusive</p>
+        <h1 class="discount-text">Flat 20% off</h1>
+        <p class="spend-text">On min. spends of $100.</p>
+        <p class="checkout-text"><strong>Applies automatically at checkout.</strong></p>
+
+        <div class="category-buttons">
+            <button class="category-btn111" onclick="window.location.href='./menproducts.html'">mens</button>
+            <button class="category-btn" onclick="window.location.href='./womenproducts.html'">womens</button>
+            <button class="category-btn" onclick="window.location.href='./kidsproducts.html'">Kids</button>
+        </div>
+
+        <p class="offer-footer">Offer applicable on men's, kids and baby wear. Limited time offer. *T&C Apply</p>
+    </div>
+    </div>
+
+   
+    <div class="video">
+        <a href=""><video src="https://image.hm.com/content/dam/global_campaigns/season_01/men/start-page-assets/w15/video/MS21E4-15A-CLEAN-16x9.mp4"  autoplay ></video></a>
+        
+    </div>
+    <div id="twoimages">
+            <a href="./menproducts.html"><img src="https://image.hm.com/content/dam/global_campaigns/season_01/men/start-page-assets/w15/teasers/MS21E3-4x5-Startpage-Teaser-3-w15.jpg?imwidth=1024" alt=""></a>
+            <a href="./menproducts.html"><img src="https://image.hm.com/content/dam/global_campaigns/season_01/men/ms21e5/common-ratios/MS21E5-linen-days-edit-4x5.jpg?imwidth=1024" alt=""></a>
+    </div>
+
+
+
+
+     <div class="video2">
+        <a href=""><video src="https://image.hm.com/content/dam/global_campaigns/season_01/women/startpage-assets/wk20/1031A-startpage-women-wk20-video-16x9.mp4"  autoplay  ></video></a>
+        
+    </div>
+    <div id="twoimages">
+            <a href="./womenproducts.html"><img src="https://image.hm.com/assets/hm/2c/2c/2c2cc6866092ad7bfcd18ae8cfe22dd179d49d50.jpg?imwidth=1536" alt=""></a>
+            <a href="./womenproducts.html"><img src="https://image.hm.com/assets/hm/18/62/186267c06aea89dfd2832e872cc0e875c1c83b99.jpg?imwidth=2160" alt=""></a>
+    </div>
+
+
+
+    <!-- <div class="model-section" >
+        <a href=""><img src="https://image.hm.com/assets/hm/8f/ff/8fffda87cd6715b2fb2540b582bd5dced6a001ce.jpg?imwidth=2160" alt="model img"></a>
+    </div>  -->
+   
+    
+
+
+    
+   
+        
+        
+        <footer>
+  <div class="footer-container">
+    <div class="footer-section">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#">LADIES</a></li>
+        <li><a href="#">MEN</a></li>
+        <li><a href="#">KIDS</a></li>
+        <li><a href="#">HOME</a></li>
+        <li><a href="#">MAGAZINE</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Corporate Info</h4>
+      <ul>
+        <li><a href="#">CAREER AT H&M</a></li>
+        <li><a href="#">ABOUT H&M GROUP</a></li>
+        <li><a href="#">SUSTAINABILITY H&M GROUP</a></li>
+        <li><a href="#">PRESS</a></li>
+        <li><a href="#">INVESTOR RELATIONS</a></li>
+        <li><a href="#">CORPORATE GOVERNANCE</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">CUSTOMER SERVICE</a></li>
+        <li><a href="./signup.html">MY H&M</a></li>
+        <li><a href="https://www2.hm.com/en_in/customer-service/shopping-at-hm/store-locator.html">FIND A STORE</a></li>
+        <li><a href="#">LEGAL & PRIVACY</a></li>
+        <li><a href="#">CONTACT</a></li>
+        <li><a href="#">SECURE SHOPPING</a></li>
+        <li><a href="#">COOKIE NOTICE</a></li>
+        <li><a href="#">COOKIE SETTINGS</a></li>
+      </ul>
+    </div>
+    <div class="footer-section newsletter">
+      <p>Sign up now and be the first to know about exclusive offers, latest fashion news & style tips!</p>
+      <a href="https://www2.hm.com/en_in/customer-service/newsletter.html" class="read-more">READ MORE</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/H%26M-Logo.svg" alt="H&M Logo" />
+    </div>
+    <div class="region">
+      <strong>INDIA (Rs.)</strong> <a href="#">CHANGE REGION</a>
+    </div>
+    <p class="copyright">
+      The content of this site is copyright-protected and is the property of H & M Hennes & Mauritz AB.
+    </p>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/hm/#" target="_blank"><img src="https://img.icons8.com/ios-filled/20/000000/instagram-new.png"/></a>
+      <a href="https://open.spotify.com/playlist/0eeKZp7perkDfgJQt4pc6I?si=7ca42062b0bc4e54&nd=1&dlsi=2ef966f5230b4b98"  target="_blank"><img src="https://img.icons8.com/ios-filled/20/000000/spotify.png"/></a>
+      <a href="https://www.youtube.com/user/hennesandmauritz"  target="_blank"><img src="https://img.icons8.com/ios-filled/20/000000/youtube-play.png"/></a>
+      <a href="https://www.pinterest.com/hm/"   target="_blank"><img src="https://img.icons8.com/ios-filled/20/000000/pinterest--v1.png"/></a>
+      <a href="https://www.facebook.com/hm"   target="_blank"><img src="https://img.icons8.com/ios-filled/20/000000/facebook-new.png"/></a>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script  src="./script.js" >
+    
+      //  let category_btn111 = document.querySelector('.category-btn111');
+      // console.log(category_btn111);
+      //   category_btn111.addEventListener('click', function() {
+      //      window.location.href = './page11.html';
+      //   })
+
+
+
+    </script>
+
+
+
+
+
+    
+</body>
+</html>
