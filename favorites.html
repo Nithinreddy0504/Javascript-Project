@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Favorites Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .favorites-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .product {
+      background-color: white;
+      width: 220px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .image-container {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .product-content {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .product-content h3 {
+      font-size: 16px;
+      margin: 10px 0 5px;
+      height: 40px;
+      overflow: hidden;
+    }
+
+    .product-content p {
+      font-size: 15px;
+      font-weight: bold;
+      color: #444;
+      margin: 5px 0;
+    }
+
+    .product-content button {
+      margin: 5px 5px 0 5px;
+      padding: 8px 14px;
+      border: none;
+      background-color: #e74c3c;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .product-content button:hover {
+      background-color: #c0392b;
+    }
+
+    .add-to-bag-btn {
+      background-color: #3498db;
+    }
+
+    .add-to-bag-btn:hover {
+      background-color: #2980b9;
+    }
+
+    /* Toast Notification Styles */
+    #toast-container {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 9999;
+    }
+
+    .toast {
+      background-color: #333;
+      color: #fff;
+      padding: 12px 20px;
+      margin-top: 10px;
+      border-radius: 6px;
+      min-width: 200px;
+      font-size: 14px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideIn 0.4s forwards, fadeOut 0.5s 2.5s forwards;
+    }
+
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2 id="fav-heading">Your Favorites</h2>
+  <div id="favorites-root"></div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <script>
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function showToast(message, color = "#333") {
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.style.backgroundColor = color;
+      toast.textContent = message;
+      document.getElementById("toast-container").appendChild(toast);
+
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+
+    function renderFavorites() {
+      const favRoot = document.getElementById('favorites-root');
+      const heading = document.getElementById('fav-heading');
+      favRoot.innerHTML = '';
+
+      if (favorites.length === 0) {
+        heading.textContent = "Your favorites list is empty.";
+        return;
+      } else {
+        heading.textContent = "Your Favorites";
+      }
+
+      const container = document.createElement('div');
+      container.className = 'favorites-container';
+
+      favorites.forEach(item => {
+        const productDiv = document.createElement('div');
+        productDiv.className = 'product';
+        productDiv.innerHTML = `
+          <div class="image-container">
+            <img src="${item.image}" alt="${item.name}">
+          </div>
+          <div class="product-content">
+            <h3>${item.name}</h3>
+            <p>$${item.price}</p>
+            <button class="remove-btn" data-id="${item.id}">Remove</button>
+            <button class="add-to-bag-btn" data-id="${item.id}">Add to Bag</button>
+          </div>
+        `;
+        container.appendChild(productDiv);
+      });
+
+      favRoot.appendChild(container);
+
+      container.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = Number(btn.getAttribute('data-id'));
+          removeFromFavorites(id);
+        });
+      });
+
+      container.querySelectorAll('.add-to-bag-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = Number(btn.getAttribute('data-id'));
+          addToBag(id);
+        });
+      });
+    }
+
+    function removeFromFavorites(id) {
+      const removedItem = favorites.find(item => item.id === id);
+      favorites = favorites.filter(item => item.id !== id);
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      renderFavorites();
+      if (removedItem) {
+        showToast(`Removed "${removedItem.name}" from favorites.`, "#e74c3c");
+      }
+    }
+
+    function addToBag(id) {
+      const product = favorites.find(item => item.id === id);
+      if (product) {
+        const isInCart = cart.some(item => item.id === id);
+        if (isInCart) {
+          showToast(`"${product.name}" is already in your cart.`, "#e67e22");
+        } else {
+          cart.push(product);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          showToast(`Added "${product.name}" to your cart!`, "#27ae60");
+        }
+      }
+    }
+
+    renderFavorites();
+  </script>
+
+</body>
+</html>

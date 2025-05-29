@@ -1,134 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login Page</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-      }
-      body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-image: url("https://assets.rappler.com/FA3374E0A3974679BEE6144EAFB60ADC/img/0A8F9D7407604926899DD561D81DB0C8/20160622-hm.jpg");
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
-        overflow: hidden;
-        position: relative;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Page</title>
+
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Toastify CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"/>
+
+  <style>
+    /* [CSS remains the same as your version] */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(120deg, #0f0c29, #302b63, #24243e);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+      padding: 50px 35px;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(0, 191, 255, 0.2),
+                  0 0 40px rgba(0, 191, 255, 0.15),
+                  0 0 60px rgba(0, 191, 255, 0.1);
+      width: 360px;
+      text-align: center;
+      color: #fff;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 30px rgba(0, 191, 255, 0.4),
+                  0 0 60px rgba(0, 191, 255, 0.3),
+                  0 0 80px rgba(0, 191, 255, 0.2);
+    }
+
+    h1 {
+      color: #fff;
+      margin-bottom: 30px;
+      font-size: 2rem;
+      letter-spacing: 1px;
+    }
+
+    .input-box {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .input-box input {
+      width: 100%;
+      padding: 12px 45px 12px 40px;
+      border: none;
+      border-radius: 30px;
+      background-color: rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+      transition: background 0.3s;
+    }
+
+    .input-box input:focus {
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    .input-box i {
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      transform: translateY(-50%);
+      color: #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      border: none;
+      color: white;
+      font-size: 18px;
+      border-radius: 30px;
+      margin-top: 10px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 114, 255, 0.3);
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+      background: linear-gradient(to right, #0072ff, #00c6ff);
+    }
+
+    .links {
+      margin-top: 25px;
+      font-size: 14px;
+    }
+
+    .links p {
+      color: #ccc;
+    }
+
+    .links a {
+      color: #00c6ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    .input-box input::placeholder {
+      color: #ccc;
+    }
+
+    @media (max-width: 400px) {
       .container {
-        width: 400px;
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 10px;
-        box-shadow: 3px 7px 20px black;
-        text-align: center;
-        color: white;
-        position: relative;
-        z-index: 1;
+        width: 90%;
+        padding: 30px 20px;
       }
-      input {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: none;
-        border-radius: 5px;
-        outline: none;
-      }
-      button {
-        width: 100%;
-        padding: 10px;
-        background: blue;
-        border: none;
-        color: white;
-        font-size: 16px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: 0.3s;
-      }
-      button:hover {
-        background: darkblue;
-      }
-      .links {
-        margin-top: 10px;
-      }
-      .links a {
-        color: white;
-        text-decoration: none;
-        margin: 0 10px;
-      }
-      .links a:hover {
-        text-decoration: underline;
-        color: blue;
-      }
-      p {
-        color: black;
-      }
-      .container p {
-        font-size: large;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1 style="color: black">Login Page</h1>
-
-      <form id="loginForm">
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Login</h1>
+    <form id="loginForm">
+      <div class="input-box">
+        <i class="fas fa-envelope"></i>
         <input type="email" id="email" placeholder="Email" required />
-        <input type="password" id="password" placeholder="Password" required />
-        <button type="submit" id="loginButton">Login</button>
-      </form>
-
-      <div class="links">
-        <p>I don't have an account...<a href="./signup.html">Register</a></p>
-        <br /><br />
-        <p>Login as guest...?<a href="./home.html">Guest</a></p>
       </div>
+      <div class="input-box">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="password" placeholder="Password" required />
+      </div>
+      <button type="submit" id="loginButton">Login</button>
+    </form>
+
+    <div class="links">
+      <p>Don't have an account? <a href="./signup.html">Register</a></p>
+      <p>Login as guest? <a href="./home.html">Continue as Guest</a></p>
     </div>
+  </div>
 
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-      import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+  <!-- Toastify JS -->
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-      const firebaseConfig = {
-        apiKey: "AIzaSyBn4UeWwq2aS4Og7-W5C7jK_adetN1xgwU",
-        authDomain: "java-script-project-9078e.firebaseapp.com",
-        projectId: "java-script-project-9078e",
-        storageBucket: "java-script-project-9078e.appspot.com",
-        messagingSenderId: "475663638377",
-        appId: "1:475663638377:web:fce5cf163818b847f127f8"
-      };
+  <!-- Firebase Authentication Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
+    const firebaseConfig = {
+      apiKey: "AIzaSyBn4UeWwq2aS4Og7-W5C7jK_adetN1xgwU",
+      authDomain: "java-script-project-9078e.firebaseapp.com",
+      projectId: "java-script-project-9078e",
+      storageBucket: "java-script-project-9078e.appspot.com",
+      messagingSenderId: "475663638377",
+      appId: "1:475663638377:web:fce5cf163818b847f127f8"
+    };
 
-      const loginForm = document.getElementById("loginForm");
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-      loginForm.addEventListener("submit", function (event) {
-        event.preventDefault(); // Stop the form from refreshing the page
+    const loginForm = document.getElementById("loginForm");
 
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+    loginForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
 
-        signInWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            alert("Login successful!");
+      if (!email || !password) {
+        showToast("Please enter both email and password", "orange");
+        return;
+      }
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          showToast("Login successful!", "green");
+          setTimeout(() => {
             window.location.href = "./home.html";
-          })
-          .catch((error) => {
-            alert("Login failed: " + error.message);
-            console.error("Login error", error.code, error.message);
-          });
-      });
-    </script>
-  </body>
+          }, 1500);
+        })
+        .catch((error) => {
+          showToast("Login failed: " + error.message, "red");
+          console.error("Login error", error.code, error.message);
+        });
+    });
+
+    function showToast(message, color) {
+      Toastify({
+        text: message,
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        backgroundColor: color,
+        close: true
+      }).showToast();
+    }
+  </script>
+</body>
 </html>

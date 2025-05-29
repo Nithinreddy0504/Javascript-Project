@@ -1,196 +1,13 @@
-<!-- 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cart Page</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #f0f0f0;
-    }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
+  <!-- SweetAlert2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    .cart-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .product {
-      background-color: white;
-      width: 220px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .product:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
-
-    .image-container {
-      width: 100%;
-      height: 180px;
-      overflow: hidden;
-    }
-
-    .image-container img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .product-content {
-      padding: 15px;
-      text-align: center;
-    }
-
-    .product-content h3 {
-      font-size: 16px;
-      margin: 10px 0 5px;
-      height: 40px;
-      overflow: hidden;
-    }
-
-    .product-content p {
-      font-size: 15px;
-      font-weight: bold;
-      color: #444;
-      margin: 5px 0;
-    }
-
-    .product-content button {
-      margin-top: 10px;
-      padding: 8px 14px;
-      border: none;
-      background-color: #e74c3c;
-      color: white;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-
-    .product-content button:hover {
-      background-color: #c0392b;
-    }
-
-    .total-section {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .buy-button {
-      background-color: red;
-      color: white;
-      padding: 12px 24px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      margin-top: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .buy-button:hover {
-      background-color: #27ae60;
-    }
-  </style>
-</head>
-<body>
-
-  <h2 id="cart-heading">Your Cart</h2>
-  <div id="cart-root"></div>
-
-  <script>
-    let data = JSON.parse(localStorage.getItem('cart')) || [];
-
-    function renderCart() {
-      const cartRoot = document.getElementById('cart-root');
-      const heading = document.getElementById('cart-heading');
-      cartRoot.innerHTML = ''; // Clear only the cart content
-
-      if (data.length === 0) {
-        heading.textContent = "Your cart is empty.";
-        return;
-      } else {
-        heading.textContent = "Your Cart";
-      }
-
-      const cartContainer = document.createElement('div');
-      cartContainer.className = 'cart-container';
-
-      let totalPrice = 0;
-
-      data.forEach(item => {
-        totalPrice += parseFloat(item.price);
-
-        const productDiv = document.createElement('div');
-        productDiv.className = 'product';
-        productDiv.innerHTML = `
-          <div class="image-container">
-            <img src="${item.image}" alt="${item.name}">
-          </div>
-          <div class="product-content">
-            <h3>${item.name}</h3>
-            <p>$${item.price}</p>
-            <button onclick="removeFromCart(${item.id})">Remove</button>
-          </div>
-        `;
-        cartContainer.appendChild(productDiv);
-      });
-
-      const totalDiv = document.createElement('div');
-      totalDiv.className = 'total-section';
-      totalDiv.innerHTML = `
-        <p>Total Price: $${totalPrice.toFixed(2)}</p>
-        <button class="buy-button" onclick="proceedToBuy()">Proceed to Buy</button>
-      `;
-
-      cartRoot.appendChild(cartContainer);
-      cartRoot.appendChild(totalDiv);
-    }
-
-    function removeFromCart(id) {
-      data = data.filter(item => item.id !== id);
-      localStorage.setItem('cart', JSON.stringify(data));
-      renderCart();
-    }
-
-    function proceedToBuy() {
-      alert('Proceeding to buy! (Payment integration coming soon)');
-      data = [];
-      localStorage.setItem('cart', JSON.stringify(data));
-      renderCart();
-    }
-
-    renderCart();
-  </script>
-
-</body>
-</html> -->
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cart Page</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -300,7 +117,6 @@
       margin-top: 5px;
     }
 
-    /* Payment modal styles */
     #payment-modal {
       display: none;
       position: fixed;
@@ -346,12 +162,50 @@
       background-color: #ccc;
       margin-top: 5px;
     }
+
+    /* Toast styles */
+    #toast-container {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 9999;
+    }
+
+    .toast {
+      background-color: #333;
+      color: #fff;
+      padding: 12px 20px;
+      margin-top: 10px;
+      border-radius: 6px;
+      min-width: 200px;
+      font-size: 14px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideIn 0.4s forwards, fadeOut 0.5s 2.5s forwards;
+    }
+
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+    }
   </style>
 </head>
 <body>
 
   <h2 id="cart-heading">Your Cart</h2>
   <div id="cart-root"></div>
+
+  <!-- Toast container -->
+  <div id="toast-container"></div>
 
   <!-- Payment Modal -->
   <div id="payment-modal">
@@ -368,6 +222,17 @@
 
   <script>
     let data = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function showToast(message, color = "#333") {
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.style.backgroundColor = color;
+      toast.textContent = message;
+      document.getElementById("toast-container").appendChild(toast);
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
 
     function renderCart() {
       const cartRoot = document.getElementById('cart-root');
@@ -392,7 +257,6 @@
         subtotal += parseFloat(item.price);
       });
 
-      // Apply 20% discount if subtotal is $100 or more
       if (subtotal >= 100) {
         discount = subtotal * 0.2;
         totalPrice = subtotal - discount;
@@ -418,7 +282,7 @@
 
       const totalDiv = document.createElement('div');
       totalDiv.className = 'total-section';
-      
+
       if (subtotal >= 100) {
         totalDiv.innerHTML = `
           <p>Subtotal: $${subtotal.toFixed(2)}</p>
@@ -439,9 +303,13 @@
     }
 
     function removeFromCart(id) {
+      const removedItem = data.find(item => item.id === id);
       data = data.filter(item => item.id !== id);
       localStorage.setItem('cart', JSON.stringify(data));
       renderCart();
+      if (removedItem) {
+        showToast(`Removed "${removedItem.name}" from cart.`, "#e74c3c");
+      }
     }
 
     function proceedToBuy() {
@@ -459,15 +327,23 @@
       const cvv = document.getElementById('cvv').value.trim();
 
       if (!name || !number || !expiry || !cvv || number.length < 16 || cvv.length < 3) {
-        alert("Please enter valid payment details.");
+        showToast("Please enter valid payment details.", "#e67e22");
         return;
       }
 
-      alert("Payment successful! Thank you for your purchase.");
-      data = [];
-      localStorage.setItem('cart', JSON.stringify(data));
-      renderCart();
-      closePaymentModal();
+      Swal.fire({
+        icon: 'success',
+        title: 'Payment Successful!',
+        text: 'Thank you for your purchase.',
+        confirmButtonText: 'OK',
+        timer: 3000,
+        timerProgressBar: true
+      }).then(() => {
+        data = [];
+        localStorage.setItem('cart', JSON.stringify(data));
+        renderCart();
+        closePaymentModal();
+      });
     }
 
     renderCart();
