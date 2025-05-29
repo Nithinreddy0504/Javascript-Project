@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accessories </title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    .product {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      margin: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 22vw;
+      min-width: 250px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin: 10px 0 5px;
+      text-align: center;
+      color: #333;
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: #666;
+      margin: 4px 0;
+      text-align: center;
+    }
+
+    .product p:last-of-type {
+      font-weight: bold;
+      color: #000;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 8px 12px;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #333;
+    }
+
+    #products-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    /* Toast container */
+    #toast-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 300px;
+    }
+
+    /* Toast style */
+    .toast {
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      font-size: 0.95rem;
+      animation: fadeinout 3s forwards;
+    }
+
+    .toast.success {
+      background-color: #4CAF50; /* green */
+    }
+
+    .toast.error {
+      background-color: #f44336; /* red */
+    }
+
+    .toast.info {
+      background-color: #2196F3; /* blue */
+    }
+
+    .toast.warning {
+      background-color: #FF9800; /* orange */
+    }
+
+    @keyframes fadeinout {
+      0% { opacity: 0; transform: translateY(20px); }
+      10% { opacity: 0.95; transform: translateY(0); }
+      90% { opacity: 0.95; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(20px); }
+    }
+
+    @media (max-width: 600px) {
+      .product {
+        width: 90vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="products-container"></div>
+
+  <!-- Toast container -->
+  <div id="toast-container"></div>
+
+  <script>
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      container.appendChild(toast);
+
+      // Remove toast after 3s
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    async function fetchData() {
+      try {
+        const response = await fetch("https://json-server-9ivp.onrender.com/data");
+        if (!response.ok) throw new Error("Network response was not ok");
+
+        const data = await response.json();
+        const filteredEvents = data.filter((x) => x.category === "accessories");
+
+        const container = document.getElementById("products-container");
+
+        filteredEvents.forEach((item) => {
+          const productDiv = document.createElement("div");
+          productDiv.className = "product";
+
+          const isFavorite = (JSON.parse(localStorage.getItem("favorites")) || []).some(fav => fav.id === item.id);
+          const favBtnText = isFavorite ? "❤️ Added" : "❤️";
+
+          const buttonId = `btn-${item.id}`;
+          const favId = `fav-${item.id}`;
+
+          productDiv.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <h2>${item.name}</h2>
+            <p>${item.description}</p>
+            <p>Price: $${item.price}</p>
+            <div class="btn-group">
+              <button class="add-to-cart" data-id="${item.id}" id="${buttonId}">Add to Cart</button>
+              <button class="add-to-fav" data-id="${item.id}" id="${favId}">${favBtnText}</button>
+            </div>
+          `;
+
+          container.appendChild(productDiv);
+
+          // Cart button
+          document.getElementById(buttonId).addEventListener("click", function () {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.push(item);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            showToast(`Added "${item.name}" to cart`, 'success');
+          });
+
+          // Favorite button
+          document.getElementById(favId).addEventListener("click", function () {
+            let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+            const index = favorites.findIndex(fav => fav.id === item.id);
+
+            if (index === -1) {
+              favorites.push(item);
+              this.textContent = "❤️ Added";
+              showToast(`Added "${item.name}" to favorites`, 'info');
+            } else {
+              favorites.splice(index, 1);
+              this.textContent = "❤️";
+              showToast(`Removed "${item.name}" from favorites`, 'warning');
+            }
+
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+          });
+        });
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+        showToast("Oops! Could not load products. Try again later.", 'error');
+      }
+    }
+
+    fetchData();
+  </script>
+</body>
+</html>
